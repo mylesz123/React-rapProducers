@@ -8,14 +8,16 @@ class Product extends React.Component {
      * ex. <Product id={product.id} />
      * */ 
     handleVoteUp = () => {
-        this.props.voteUp(this.props.id);
+        const product = this.props;
+        product.voteUp(product.id);
     }
 
     render() {
+        const product = this.props;
         return (
             <div className="item">
                 <div className="ui medium image ">
-                    <img src={this.props.productImageUrl} alt="avatar" />
+                    <img src={product.productImageUrl} alt="avatar" />
                 </div>
 
                 <div className="middle aligned content">
@@ -23,17 +25,17 @@ class Product extends React.Component {
                         <a onClick={this.handleVoteUp}>
                             <i className='large caret up icon' />
                         </a>
-                        {this.props.votes}
+                        {product.votes}
                     </div>
                     <div className="description">
-                        <a href={this.props.url} target="_blank" rel="noopener noreferrer">{this.props.title}</a>
-                        <p>{this.props.description}</p>
+                        <a href={product.url} target="_blank" rel="noopener noreferrer">{product.title}</a>
+                        <p>{product.description}</p>
                     </div>
 
                     <div className="extra">
                         <span>Submitted By:</span>
                         <img className="ui avatar image"
-                            src={this.props.voterAvatarUrl}
+                            src={product.voterAvatarUrl}
                             alt="avatar"
                         />
                     </div>

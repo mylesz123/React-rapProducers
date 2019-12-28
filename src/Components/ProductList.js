@@ -1,7 +1,7 @@
 import React from 'react';
-
 import * as products from "./../data/seed.js";
 import Product from "./Product"
+import Header from './Header'
 
 class ProductList extends React.Component {
     constructor(props) {
@@ -61,9 +61,12 @@ class ProductList extends React.Component {
         ));
 
         return (
+        <>
+            <Header title='Popular Producers' />
             <div className='ui unstackable items'>
                 {productComponents}
             </div>
+        </>
         );
     }
 }

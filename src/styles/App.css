@@ -1,0 +1,6 @@
+/* this is for the audio player */
+.playButtons {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}

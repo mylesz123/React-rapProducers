@@ -7,7 +7,7 @@ class Header extends React.Component {
 
     render() {
         return(
-            <h1 class="ui dividing centered header">{this.props.title}</h1>
+            <h1 className="ui dividing centered header">{this.props.title}</h1>
         );
     }
     

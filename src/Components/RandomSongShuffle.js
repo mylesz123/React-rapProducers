@@ -35,8 +35,13 @@ class RandomSongShuffle extends React.Component {
     componentWillUnmount() {
         this.player.removeEventListener("timeupdate", () => {});
     }
-
+    
     componentDidUpdate(prevProps, prevState) {
+        const {player} = this.state;
+        const paused = player === "paused";
+        const stopped = player === "stopped";
+        const playing = player === "playing" && prevState.player === "paused";
+
         if (this.state.selectedSong !== prevState.selectedSong) {
             let track;
             
@@ -60,11 +65,7 @@ class RandomSongShuffle extends React.Component {
             }
         }
 
-        const paused = this.state.player === "paused";
-        const stopped = this.state.player === "stopped";
-        const playing = this.state.player === "playing" && prevState.player === "paused";
-
-        if (this.state.player !== prevState.player) {
+        if (player !== prevState.player) {
             if (paused) this.player.pause();
             else if (stopped) {
                 this.player.pause();
@@ -72,6 +73,27 @@ class RandomSongShuffle extends React.Component {
                 this.setState({ selectedSong: null});
             }
             else if (playing) this.player.play();
+        }
+    }
+
+    handleSkip = direction =>  {
+        const currentTrackIndex = songsList.findIndex(track => track.title === this.state.selectedSong);
+        const tracksLength = songsList.length -1;
+
+        if (direction === "previous") {
+            const prevTrack = currentTrackIndex === 0 
+                ? tracksLength
+                : currentTrackIndex -1;
+            const trackToPlay = songsList[prevTrack];
+            this.setState({ selectedSong: trackToPlay.title});
+        }
+
+        else if (direction === "next") {
+            const nextTrack = currentTrackIndex === tracksLength 
+                ? 0
+                : currentTrackIndex +1;
+            const trackToPlay = songsList[nextTrack];
+            this.setState({ selectedSong: trackToPlay.title});
         }
     }
 
@@ -89,51 +111,61 @@ class RandomSongShuffle extends React.Component {
         
         const currentTime = getTime(this.state.currentTime);
         const duration = getTime(this.state.duration);
+        const { player } = this.state;
 
         return (
         <>
             <Header title='Music Playlist' />
             <ul> {mappedSongs} </ul>
-    
-            <div className="ui labeled icon buttons playButtons">
-                
-                {this.state.player === "paused" && (
-                    <button 
-                        className="ui green basic button" 
-                        onClick={() => this.setState({ player: "playing" })}
-                    >
-                        <i className="play icon"/>
-                        Play
-                    </button>
-                )}
 
-                {this.state.player === "playing" && (
-                    <button 
-                        className="ui purple basic button"
-                        onClick={() => this.setState({ player: "paused" })}
+            {player !== "stopped" && (
+                <div className="ui labeled icon buttons playButtons">
+                    <button class="ui labeled icon button"
+                            onClick={() => this.handleSkip("previous")}
                     >
-                        <i className="pause icon"/>
-                        Pause
+                        <i class="left chevron icon"></i>
+                        Back
                     </button>
-                )}
+                    
+                    {player === "paused" && (
+                        <button 
+                            className="ui green basic button" 
+                            onClick={() => this.setState({ player: "playing" })}
+                        >
+                            <i className="play icon"/>
+                            Play
+                        </button>
+                    )}
 
-                {this.state.player === "playing" || this.state.player === "paused" ? (
-                    <button 
+                    {player === "playing" && (
+                        <button 
+                            className="ui purple basic button"
+                            onClick={() => this.setState({ player: "paused" })}
+                        >
+                            <i className="pause icon"/>
+                            Pause
+                        </button>
+                    )}
+
+                    <button
                         className="ui red basic button"
                         onClick={() => this.setState({ player: "stopped" })}
                     >
-                        <i className="stop icon"/>
+                        <i className="stop icon" />
                         Stop
                     </button>
-                ) : (
-                    ""
-                )}
-            </div>
 
-            {this.state.player === "playing" || this.state.player === "paused" 
-            ? (<div> {currentTime} / {duration} </div>) 
-            : ("")
-            }
+                    <button class="ui right labeled icon button"
+                        onClick={() => this.handleSkip("next")}
+                    >
+                        <i class="right arrow icon"></i>
+                        Next
+                    </button>
+                </div>
+            )}
+
+            {/* show song time */}
+            { player !== "stopped" && (<div> {currentTime} / {duration} </div>) }
 
             {/* callback to use this.player as ref*/}
             <audio ref={ref => this.player = ref} />

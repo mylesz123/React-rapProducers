@@ -41,17 +41,23 @@ class RandomSongShuffle extends React.Component {
         const paused = player === "paused";
         const stopped = player === "stopped";
         const playing = player === "playing" && prevState.player === "paused";
+        const { selectedSong } = this.state;
 
-        if (this.state.selectedSong !== prevState.selectedSong) {
+        function getTrack() {
+            const currentTrackIndex = songsList.findIndex(song => song.title === selectedSong);
+            return songsList[currentTrackIndex].song;
+        }
+        
+        if (selectedSong !== prevState.selectedSong) {
             let track;
-            
-            switch (this.state.selectedSong) {
+                        
+            switch (selectedSong) {
                 case "Mountains":
-                    track = songsList[0].song
+                    track = getTrack()
                     break;
 
                 case "Burn It Down":
-                    track = songsList[1].song
+                    track = getTrack()
                     break;
             
                 default:
@@ -66,13 +72,13 @@ class RandomSongShuffle extends React.Component {
         }
 
         if (player !== prevState.player) {
-            if (paused) this.player.pause();
+            if (playing) this.player.play();
+            else if (paused) this.player.pause();
             else if (stopped) {
                 this.player.pause();
                 this.player.currentTime = 0;
                 this.setState({ selectedSong: null});
             }
-            else if (playing) this.player.play();
         }
     }
 
@@ -120,10 +126,10 @@ class RandomSongShuffle extends React.Component {
 
             {player !== "stopped" && (
                 <div className="ui labeled icon buttons playButtons">
-                    <button class="ui labeled icon button"
+                    <button className="ui labeled icon button"
                             onClick={() => this.handleSkip("previous")}
                     >
-                        <i class="left chevron icon"></i>
+                        <i className="left chevron icon"></i>
                         Back
                     </button>
                     
@@ -155,10 +161,10 @@ class RandomSongShuffle extends React.Component {
                         Stop
                     </button>
 
-                    <button class="ui right labeled icon button"
+                    <button className="ui right labeled icon button"
                         onClick={() => this.handleSkip("next")}
                     >
-                        <i class="right arrow icon"></i>
+                        <i className="right arrow icon"></i>
                         Next
                     </button>
                 </div>

@@ -4,3 +4,13 @@
     display: flex;
     justify-content: center;
 }
+
+/* Dark mode */
+.darkMode > 
+.ui.dividing.header {
+    color: white;
+}
+
+body > ul {
+    color: black;
+}

@@ -10,3 +10,5 @@ Clone the repo and run it locally::
     $ cd React-rapProducers
     $ npm install
     $ npm start
+
+using this as a tutorial https://dev.to/ma5ly/lets-upgrade-our-little-audio-player-in-react-pfa

@@ -1,8 +1,8 @@
 const songsList = [
     { 
         id: 1, 
-        title: "Mountains" ,
-        song: "listOfSongs/mountains.wav"
+        title: "Drank in my cup" ,
+        song: "listOfSongs/Kirko Bangz - Drank In My Cup.mp3"
     }, 
     {
         id: 2,

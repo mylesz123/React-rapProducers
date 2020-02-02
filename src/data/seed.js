@@ -3,7 +3,7 @@ function getRandomVote() {
     return Math.floor(Math.random() * 10) + 1; 
 }
 
-const products = [
+const rappers = [
     {
         "id": 1,
         "title": "Wheezy Outta Hea..",
@@ -46,4 +46,4 @@ const products = [
     },
 ];
 
-export default products;
+export default rappers;

@@ -1,48 +1,43 @@
 import React from 'react';
 
-class Product extends React.Component {
+export default function Product(props) {
+    let { id, title, description, url, votes, voterAvatarUrl, productImageUrl, voteUp} = props;
 
     /**
      * Sends info back to parent (ProductList)
      * ProductList is the parent bc thats where the properties get passed in
      * ex. <Product id={product.id} />
-     * */ 
-    handleVoteUp = () => {
-        const product = this.props;
-        product.voteUp(product.id);
+     * */
+    let handleVoteUp = () => {
+        voteUp(id);
     }
 
-    render() {
-        const product = this.props;
-        return (
-            <div className="item">
-                <div className="ui medium image ">
-                    <img src={product.productImageUrl} alt="avatar" />
+    return (
+        <div className="item">
+            <div className="ui medium image ">
+                <img src={productImageUrl} alt="avatar" />
+            </div>
+
+            <div className="middle aligned content">
+                <div className='header'>
+                    <a onClick={handleVoteUp}>
+                        <i className='large caret up icon' />
+                    </a>
+                    {votes}
+                </div>
+                <div className="description">
+                    <a href={url} target="_blank" rel="noopener noreferrer">{title}</a>
+                    <p>{description}</p>
                 </div>
 
-                <div className="middle aligned content">
-                    <div className='header'>
-                        <a onClick={this.handleVoteUp}>
-                            <i className='large caret up icon' />
-                        </a>
-                        {product.votes}
-                    </div>
-                    <div className="description">
-                        <a href={product.url} target="_blank" rel="noopener noreferrer">{product.title}</a>
-                        <p>{product.description}</p>
-                    </div>
-
-                    <div className="extra">
-                        <span>Submitted By:</span>
-                        <img className="ui avatar image"
-                            src={product.voterAvatarUrl}
-                            alt="avatar"
-                        />
-                    </div>
+                <div className="extra">
+                    <span>Submitted By:</span>
+                    <img className="ui avatar image"
+                        src={voterAvatarUrl}
+                        alt="avatar"
+                    />
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
-
-export default Product;

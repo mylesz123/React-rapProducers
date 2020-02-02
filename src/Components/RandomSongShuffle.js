@@ -2,14 +2,7 @@ import React from "react";
 
 import Header from './Header'
 import songsList from './../data/songs';
-
-function getTime(time) {
-    if (!isNaN(time)) {
-        return (
-            Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
-        );
-    }
-}
+import TimeBar from './TimeBar';
 class RandomSongShuffle extends React.Component {
 
     constructor (props) {
@@ -52,7 +45,7 @@ class RandomSongShuffle extends React.Component {
             let track;
                         
             switch (selectedSong) {
-                case "Mountains":
+                case "Drank in my cup":
                     track = getTrack()
                     break;
 
@@ -80,6 +73,26 @@ class RandomSongShuffle extends React.Component {
                 this.setState({ selectedSong: null});
             }
         }
+        // if (
+        //     this.state.duration &&
+        //     !isNaN(this.state.duration) &&
+        //     this.state.duration === this.state.currentTime
+        // ) {
+        //     const currentTrackIndex = TRACKS.findIndex(
+        //         track => track.title === this.state.selectedTrack
+        //     );
+        //     const tracksAmount = TRACKS.length - 1;
+        //     if (currentTrackIndex === tracksAmount) {
+        //         this.setState({
+        //             selectedTrack: null,
+        //             player: "stopped",
+        //             currentTime: null,
+        //             duration: null
+        //         });
+        //     } else {
+        //         this.handleSkip("next");
+        //     }
+        // }
     }
 
     handleSkip = direction =>  {
@@ -103,6 +116,10 @@ class RandomSongShuffle extends React.Component {
         }
     }
 
+    setTime = time => {
+        this.player.currentTime = time;
+    }
+
     render () {
         const mappedSongs = songsList.map(song => {
             return (
@@ -115,14 +132,20 @@ class RandomSongShuffle extends React.Component {
             );
         });
         
-        const currentTime = getTime(this.state.currentTime);
-        const duration = getTime(this.state.duration);
+        // const currentTime = getTime(this.state.currentTime);
+        // const duration = getTime(this.state.duration);
         const { player } = this.state;
 
         return (
         <>
             <Header title='Music Playlist' />
             <ul> {mappedSongs} </ul>
+
+            <TimeBar
+                setTime={this.setTime}
+                currentTime={this.state.currentTime}
+                duration={this.state.duration}
+            />
 
             {player !== "stopped" && (
                 <div className="ui labeled icon buttons playButtons">
@@ -171,7 +194,7 @@ class RandomSongShuffle extends React.Component {
             )}
 
             {/* show song time */}
-            { player !== "stopped" && (<div> {currentTime} / {duration} </div>) }
+            {/* { player !== "stopped" && (<div> {currentTime} / {duration} </div>) } */}
 
             {/* callback to use this.player as ref*/}
             <audio ref={ref => this.player = ref} />

@@ -1,16 +1,10 @@
 import React from 'react';
 
-class Header extends React.Component {
-    constructor (props) {
-        super(props);
-    }
+export default function Header(props) {
+    let {title} = props;
 
-    render() {
-        return(
-            <h1 className="ui dividing centered header">{this.props.title}</h1>
-        );
-    }
-    
+    return (
+        <h1 className="ui dividing centered header">{title}</h1>
+    );
+   
 }
-
-export default Header;

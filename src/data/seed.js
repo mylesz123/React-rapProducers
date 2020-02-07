@@ -46,4 +46,4 @@ const rappers = [
     },
 ];
 
-export default rappers;
+export {rappers};

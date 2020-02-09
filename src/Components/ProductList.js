@@ -1,7 +1,7 @@
 import React from 'react';
 import {rappers} from "./../data/seed.js";
-import Product from "./Product"
-import Header from './Header'
+import Product from "./Product";
+import Header from './Header';
 
 export default class ProductList extends React.Component {
     constructor(props) {

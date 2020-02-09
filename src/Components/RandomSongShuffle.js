@@ -71,8 +71,7 @@ export default class RandomSongShuffle extends React.Component {
             if (stopped) {
                 this.player.pause();
                 this.player.currentTime = 0;
-                this.setState({ selectedSong: null});
-                this.setState({ isDisabled: true });
+                this.setState({ selectedSong: null, isDisabled: true });
             }
         }
     }

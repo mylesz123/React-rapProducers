@@ -6,7 +6,6 @@ import TimeBar from './TimeBar';
 import BackgroundVid from "./BackgroundVid";
 
 export default class RandomSongShuffle extends React.Component {
-
     constructor (props) {
         super(props);
 
@@ -24,7 +23,6 @@ export default class RandomSongShuffle extends React.Component {
             this.setState({
                 currentTime: e.target.currentTime,
                 duration: e.target.duration,
-                // isDisabled: true,
             });
         });
     }
@@ -116,8 +114,6 @@ export default class RandomSongShuffle extends React.Component {
             );
         });
         
-        // const currentTime = getTime(this.state.currentTime);
-        // const duration = getTime(this.state.duration);
         const { player } = this.state;
 
         return (
@@ -177,9 +173,6 @@ export default class RandomSongShuffle extends React.Component {
                     </button>
                 </div>
             )}
-
-            {/* show song time */}
-            {/* { player !== "stopped" && (<div> {currentTime} / {duration} </div>) } */}
 
             {/* callback to use this.player as ref*/}
             <audio ref={ref => this.player = ref} />

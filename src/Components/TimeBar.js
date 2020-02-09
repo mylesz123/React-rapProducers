@@ -8,7 +8,7 @@ function getTime(time) {
     }
 }
 
-export default function TimeBar({ currentTime, duration, setTime }) {
+export default function TimeBar({ currentTime, duration, setTime, isDisabled }) {
     const formattedCurrentTime = getTime(currentTime);
     const formattedDuration = getTime(duration);
     const sBits = [];
@@ -17,6 +17,11 @@ export default function TimeBar({ currentTime, duration, setTime }) {
         sBits.push(count);
         count++;
     }
+
+    const turnTimeBarOff = (bool) => {
+        return bool === true ? "none" : "auto";
+    }
+
     const seconds = sBits.map(second => {
         return (
             <div
@@ -31,9 +36,10 @@ export default function TimeBar({ currentTime, duration, setTime }) {
                     background:
                         currentTime && Math.round(currentTime) >= second
                             ? "violet"
-                            : "rgba(0, 0, 0, .1)", //could be random colors 👀
+                            : currentTime !== 0 ? "rgba(0, 0, 0, .1)" : "white", //could be random colors 👀
                     transition: "all 0.2s ease-in-out",
                     borderRadius: ".28571429rem",
+                    pointerEvents: turnTimeBarOff(isDisabled),
                 }}
             />
         );
@@ -42,7 +48,7 @@ export default function TimeBar({ currentTime, duration, setTime }) {
     return (
         <div className="time-bar">
             <div className="seconds">{seconds}</div>
-            {currentTime 
+            {currentTime
             ? ( <div className="song-duration">
                     {formattedCurrentTime} / {formattedDuration}
                 </div>

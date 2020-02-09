@@ -3,7 +3,9 @@ import React from "react";
 import Header from './Header'
 import songsList from './../data/songs';
 import TimeBar from './TimeBar';
-class RandomSongShuffle extends React.Component {
+import BackgroundVid from "./BackgroundVid";
+
+export default class RandomSongShuffle extends React.Component {
 
     constructor (props) {
         super(props);
@@ -12,7 +14,8 @@ class RandomSongShuffle extends React.Component {
             selectedSong: null,
             player: "stopped",
             currentTime: null,
-            duration: null
+            duration: null,
+            isDisabled: true,
         };
     }
 
@@ -20,7 +23,8 @@ class RandomSongShuffle extends React.Component {
         this.player.addEventListener("timeupdate", (e) => {
             this.setState({
                 currentTime: e.target.currentTime,
-                duration: e.target.duration
+                duration: e.target.duration,
+                // isDisabled: true,
             });
         });
     }
@@ -30,11 +34,10 @@ class RandomSongShuffle extends React.Component {
     }
     
     componentDidUpdate(prevProps, prevState) {
-        const {player} = this.state;
+        const { player, selectedSong, isDisabled } = this.state;
         const paused = player === "paused";
         const stopped = player === "stopped";
         const playing = player === "playing" && prevState.player === "paused";
-        const { selectedSong } = this.state;
 
         function getTrack() {
             const currentTrackIndex = songsList.findIndex(song => song.title === selectedSong);
@@ -60,39 +63,20 @@ class RandomSongShuffle extends React.Component {
             if (track) {
                 this.player.src = track;
                 this.player.play();
-                this.setState({ player: "playing" });
+                this.setState({ player: "playing", isDisabled: false });
             }
         }
 
         if (player !== prevState.player) {
             if (playing) this.player.play();
-            else if (paused) this.player.pause();
-            else if (stopped) {
+            if (paused) this.player.pause();
+            if (stopped) {
                 this.player.pause();
                 this.player.currentTime = 0;
                 this.setState({ selectedSong: null});
+                this.setState({ isDisabled: true });
             }
         }
-        // if (
-        //     this.state.duration &&
-        //     !isNaN(this.state.duration) &&
-        //     this.state.duration === this.state.currentTime
-        // ) {
-        //     const currentTrackIndex = TRACKS.findIndex(
-        //         track => track.title === this.state.selectedTrack
-        //     );
-        //     const tracksAmount = TRACKS.length - 1;
-        //     if (currentTrackIndex === tracksAmount) {
-        //         this.setState({
-        //             selectedTrack: null,
-        //             player: "stopped",
-        //             currentTime: null,
-        //             duration: null
-        //         });
-        //     } else {
-        //         this.handleSkip("next");
-        //     }
-        // }
     }
 
     handleSkip = direction =>  {
@@ -145,6 +129,7 @@ class RandomSongShuffle extends React.Component {
                 setTime={this.setTime}
                 currentTime={this.state.currentTime}
                 duration={this.state.duration}
+                isDisabled={this.state.isDisabled}
             />
 
             {player !== "stopped" && (
@@ -178,7 +163,7 @@ class RandomSongShuffle extends React.Component {
 
                     <button
                         className="ui red basic button"
-                        onClick={() => this.setState({ player: "stopped" })}
+                        onClick={() => this.setState({ player: "stopped"})}
                     >
                         <i className="stop icon" />
                         Stop
@@ -198,9 +183,12 @@ class RandomSongShuffle extends React.Component {
 
             {/* callback to use this.player as ref*/}
             <audio ref={ref => this.player = ref} />
+            <div className="background-video">
+                <BackgroundVid 
+                    isDisabled={this.state.isDisabled}
+                />
+            </div>
         </>
         );
     }
 }
-
-export default RandomSongShuffle;

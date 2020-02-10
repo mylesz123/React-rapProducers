@@ -1,8 +1,10 @@
 import React from 'react';
 
-export default function Product(props) {
-    let { id, title, description, url, votes, voterAvatarUrl, productImageUrl, voteUp} = props;
-
+export default function Product({ 
+    id, title, description, url, 
+    votes, voterAvatarUrl, productImageUrl, voteUp,
+}) 
+{
     /**
      * Sends info back to parent (ProductList)
      * ProductList is the parent bc thats where the properties get passed in
@@ -20,7 +22,7 @@ export default function Product(props) {
 
             <div className="middle aligned content">
                 <div className='header'>
-                    <a onClick={handleVoteUp}>
+                    <a onClick={handleVoteUp} href="#">
                         <i className='large caret up icon' />
                     </a>
                     {votes}

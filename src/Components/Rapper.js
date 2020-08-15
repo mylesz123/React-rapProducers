@@ -1,16 +1,13 @@
 import React from 'react';
 
-export default function Product({ 
-    id, title, description, url, 
-    votes, voterAvatarUrl, productImageUrl, voteUp,
-}) 
+export default function Rapper({ rapper, voteUp }) 
 {
-    /**
-     * Sends info back to parent (ProductList)
-     * ProductList is the parent bc thats where the properties get passed in
-     * ex. <Product id={product.id} />
-     * */
-    let handleVoteUp = () => {
+    const {
+        id, title, description, url,
+        votes, voterAvatarUrl, productImageUrl,
+    } = rapper;
+
+    const handleVoteUp = () => {
         voteUp(id);
     }
 
